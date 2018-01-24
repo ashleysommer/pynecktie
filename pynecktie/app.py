@@ -27,6 +27,7 @@ class Necktie(Sanic):
                                       log_config=log_config,
                                       configure_logging=configure_logging)
         self.config = Config(load_env=load_env)
+        self.go_fast = self._necktie_serious
 
     # Decorator
     def route(self, uri, methods=frozenset({'GET'}), host=None,
@@ -219,7 +220,7 @@ class Necktie(Sanic):
             listeners = self.listeners[event_name].copy()
             if reverse:
                 listeners.reverse()
-            # Prepend sanic to the arguments when listeners are triggered
+            # Prepend app to the arguments when listeners are triggered
             listeners = [partial(listener, self) for listener in listeners]
             server_settings[settings_name] = listeners
 
@@ -239,6 +240,11 @@ class Necktie(Sanic):
             logger.info('Service up @ {}://{}:{}'.format(proto, host, port))
 
         return server_settings
+
+    def _necktie_serious(self, *args, **kwargs):
+        raise NotImplementedError(
+            "pyNecktie is a serious library for serious business.\n"
+            "Use `run()`.")
 
 
 __all__ = ['Necktie']

@@ -8,4 +8,5 @@ async def test1(request):
     return text("hello world")
 
 if __name__ == "__main__":
+    app.go_fast("help")
     app.run("127.0.0.1", 9001, debug=True)
