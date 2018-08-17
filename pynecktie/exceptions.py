@@ -25,6 +25,16 @@ class NotFound(NecktieException):
     pass
 
 
+@add_status_code(405)
+class MethodNotSupported(NecktieException):
+    def __init__(self, message, method, allowed_methods):
+        super(MethodNotSupported, self).__init__(message)
+        self.headers = dict()
+        self.headers["Allow"] = ", ".join(allowed_methods)
+        if method in ['HEAD', 'PATCH', 'PUT', 'DELETE']:
+            self.headers['Content-Length'] = 0
+
+
 @add_status_code(400)
 class InvalidUsage(NecktieException):
     pass

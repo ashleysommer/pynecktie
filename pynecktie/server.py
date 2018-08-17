@@ -4,19 +4,15 @@ import traceback
 import asyncio
 from httptools import HttpRequestParser
 from httptools.parser.errors import HttpParserError
-from sanic.server import CIDict as SanicCIDict,\
-    HttpProtocol as SanicHttpProtocol,\
+from sanic.server import HttpProtocol as SanicHttpProtocol,\
     Signal as SanicSignal
 from sanic.server import serve as sanic_serve, serve_multiple as sanic_serve_multiple,\
-    trigger_events, update_current_time, current_time
-
+    trigger_events, update_current_time
+from sanic import server
+from multidict import CIMultiDict
 from pynecktie.exceptions import ServerError, RequestTimeout, ServiceUnavailable, PayloadTooLarge, InvalidUsage
 from pynecktie.log import logger
 from pynecktie.request import Request
-
-
-class CIDict(SanicCIDict):
-    pass
 
 
 class Signal(SanicSignal):
@@ -27,11 +23,12 @@ class HttpProtocol(SanicHttpProtocol):
     __slots__ = tuple()
 
     def __init__(self, *, loop, request_handler, error_handler,
-                 signal=Signal(), connections=set(), request_timeout=60,
+                 signal=None, connections=set(), request_timeout=60,
                  response_timeout=60, keep_alive_timeout=5,
                  request_max_size=None, request_class=None, access_log=True,
                  keep_alive=True, is_request_stream=False, router=None,
                  state=None, debug=False, **kwargs):
+        signal = signal or Signal()
         request_class = request_class or Request
         super(HttpProtocol, self).\
             __init__(loop=loop, request_handler=request_handler,
@@ -48,7 +45,7 @@ class HttpProtocol(SanicHttpProtocol):
         # exactly what this timeout is checking for.
         # Check if elapsed time since request initiated exceeds our
         # configured maximum request timeout value
-        time_elapsed = current_time - self._last_request_time
+        time_elapsed = server.current_time - self._last_request_time
         if time_elapsed < self.request_timeout:
             time_left = self.request_timeout - time_elapsed
             self._request_timeout_handler = (
@@ -68,7 +65,7 @@ class HttpProtocol(SanicHttpProtocol):
     def response_timeout_callback(self):
         # Check if elapsed time since response was initiated exceeds our
         # configured maximum request timeout value
-        time_elapsed = current_time - self._last_request_time
+        time_elapsed = server.current_time - self._last_request_time
         if time_elapsed < self.response_timeout:
             time_left = self.response_timeout - time_elapsed
             self._response_timeout_handler = (
@@ -76,10 +73,30 @@ class HttpProtocol(SanicHttpProtocol):
                                      self.response_timeout_callback)
             )
         else:
+            if self._request_stream_task:
+                self._request_stream_task.cancel()
+            if self._request_handler_task:
+                self._request_handler_task.cancel()
             try:
                 raise ServiceUnavailable('Response Timeout')
             except ServiceUnavailable as exception:
                 self.write_error(exception)
+
+    def keep_alive_timeout_callback(self):
+        # Check if elapsed time since last response exceeds our configured
+        # maximum keep alive timeout value
+
+        time_elapsed = server.current_time - self._last_response_time
+        if time_elapsed < self.keep_alive_timeout:
+            time_left = self.keep_alive_timeout - time_elapsed
+            self._keep_alive_timeout_handler = (
+                self.loop.call_later(time_left,
+                                     self.keep_alive_timeout_callback)
+            )
+        else:
+            logger.debug('KeepAlive Timeout. Closing connection.')
+            self.transport.close()
+            self.transport = None
 
     def data_received(self, data):
         # Check for the request itself getting too large and exceeding
@@ -127,7 +144,7 @@ class HttpProtocol(SanicHttpProtocol):
     def on_headers_complete(self):
         self.request = self.request_class(
             url_bytes=self.url,
-            headers=CIDict(self.headers),
+            headers=CIMultiDict(self.headers),
             version=self.parser.get_http_version(),
             method=self.parser.get_method().decode(),
             transport=self.transport
@@ -180,7 +197,7 @@ class HttpProtocol(SanicHttpProtocol):
                 self._keep_alive_timeout_handler = self.loop.call_later(
                     self.keep_alive_timeout,
                     self.keep_alive_timeout_callback)
-                self._last_response_time = current_time
+                self._last_response_time = server.current_time
                 self.cleanup()
 
     async def stream_response(self, response):
@@ -220,7 +237,7 @@ class HttpProtocol(SanicHttpProtocol):
                 self._keep_alive_timeout_handler = self.loop.call_later(
                     self.keep_alive_timeout,
                     self.keep_alive_timeout_callback)
-                self._last_response_time = current_time
+                self._last_response_time = server.current_time
                 self.cleanup()
 
     def bail_out(self, message, from_error=False):
@@ -239,23 +256,26 @@ def serve(host, port, request_handler, error_handler, *args, before_start=None,
           request_timeout=60, response_timeout=60, keep_alive_timeout=5,
           ssl=None, sock=None, request_max_size=None, reuse_port=False,
           loop=None, protocol=HttpProtocol, backlog=100,
-          register_sys_signals=True, run_async=False, connections=None,
-          signal=Signal(), request_class=None, access_log=True,
-          keep_alive=True, is_request_stream=False, router=None,
-          websocket_max_size=None, websocket_max_queue=None, state=None,
-          graceful_shutdown_timeout=15.0, **kwargs):
+          register_sys_signals=True, run_multiple=False, run_async=False,
+          connections=None, signal=Signal(), request_class=None,
+          access_log=True, keep_alive=True, is_request_stream=False,
+          router=None, websocket_max_size=None, websocket_max_queue=None,
+          websocket_read_limit=2 ** 16, websocket_write_limit=2 ** 16,
+          state=None, graceful_shutdown_timeout=15.0, **kwargs):
     return sanic_serve(host, port, request_handler, error_handler, *args,
                        before_start=before_start, after_start=after_start, before_stop=before_stop,
                        after_stop=after_stop, debug=debug, request_timeout=request_timeout,
                        response_timeout=response_timeout, keep_alive_timeout=keep_alive_timeout,
                        ssl=ssl, sock=sock, request_max_size=request_max_size, reuse_port=reuse_port,
                        loop=loop, protocol=protocol, backlog=backlog,
-                       register_sys_signals=register_sys_signals, run_async=run_async,
-                       connections=connections, signal=signal, request_class=request_class,
-                       access_log=access_log, keep_alive=keep_alive,
+                       register_sys_signals=register_sys_signals, run_multiple=run_multiple,
+                       run_async=run_async, connections=connections, signal=signal,
+                       request_class=request_class, access_log=access_log, keep_alive=keep_alive,
                        is_request_stream=is_request_stream, router=router,
                        websocket_max_size=websocket_max_size,
-                       websocket_max_queue=websocket_max_queue, state=state,
+                       websocket_max_queue=websocket_max_queue,
+                       websocket_read_limit=websocket_read_limit,
+                       websocket_write_limit=websocket_write_limit, state=state,
                        graceful_shutdown_timeout=graceful_shutdown_timeout, **kwargs)
 
 
@@ -265,5 +285,5 @@ def serve_multiple(server_settings, workers):
     return sanic_serve_multiple(server_settings, workers)
 
 
-__all__ = ["CIDict", "Signal", "HttpProtocol",
+__all__ = ["CIMultiDict", "Signal", "HttpProtocol",
            "serve", "serve_multiple", "trigger_events", "update_current_time"]

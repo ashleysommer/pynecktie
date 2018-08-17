@@ -21,7 +21,7 @@ def open_local(paths, mode='r', encoding='utf8'):
 
 with open_local(['pynecktie', '__init__.py'], encoding='latin1') as fp:
     try:
-        version = re.findall(r"^__version__ = '([^']+)'\r?$",
+        version = re.findall(r"^__version__\s*=\s*['\"]([^'\"]+)['\"]\r?$",
                              fp.read(), re.M)[0]
     except IndexError:
         raise RuntimeError('Unable to determine version.')
@@ -59,7 +59,8 @@ requirements = [
     uvloop,
     ujson,
     'aiofiles>=0.3.0',
-    'websockets>=4.0',
+    'websockets>=5.0,<6.0',
+    'multidict>=4.0,<5.0',
 ]
 if strtobool(os.environ.get("NECKTIE_NO_UJSON", "no")):
     print("Installing without uJSON")

@@ -7,7 +7,7 @@ from sanic.router import Router as SanicRouter,\
 from sanic.router import Route, Parameter, REGEX_TYPES,\
     ROUTER_CACHE_SIZE, url_hash
 
-from pynecktie.exceptions import InvalidUsage, NotFound
+from pynecktie.exceptions import MethodNotSupported, NotFound
 
 
 class Router(SanicRouter):
@@ -23,9 +23,10 @@ class Router(SanicRouter):
         url = host + url
         # Check against known static routes
         route = self.routes_static.get(url)
-        method_not_supported = InvalidUsage(
-            'Method {} not allowed for URL {}'.format(
-                method, url), status_code=405)
+        method_not_supported = MethodNotSupported(
+            'Method {} not allowed for URL {}'.format(method, url),
+            method=method,
+            allowed_methods=self.get_supported_methods(url))
         if route:
             if route.methods and method not in route.methods:
                 raise method_not_supported
@@ -60,6 +61,20 @@ class Router(SanicRouter):
         if hasattr(route_handler, 'handlers'):
             route_handler = route_handler.handlers[method]
         return route_handler, [], kwargs, route.uri
+
+    def is_stream_handler(self, request):
+        """ Handler for request is stream or not.
+        :param request: Request object
+        :return: bool
+        """
+        try:
+            handler = self.get(request)[0]
+        except (NotFound, MethodNotSupported):
+            return False
+        if (hasattr(handler, 'view_class') and
+                hasattr(handler.view_class, request.method.lower())):
+            handler = getattr(handler.view_class, request.method.lower())
+        return hasattr(handler, 'is_stream')
 
 
 class RouteExists(SanicRouteExists):

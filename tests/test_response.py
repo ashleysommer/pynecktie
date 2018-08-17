@@ -68,10 +68,10 @@ def json_app():
 
 
 def test_json_response(json_app):
-    import json
+    from pynecktie.response import json_dumps
     request, response = json_app.test_client.get('/')
     assert response.status == 200
-    assert response.text == json.dumps(JSON_DATA)
+    assert response.text == json_dumps(JSON_DATA)
     assert response.json == JSON_DATA
 
 @pytest.fixture

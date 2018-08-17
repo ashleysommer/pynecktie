@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from sanic.response import BaseHTTPResponse as SanicBaseHTTPResponse, HTTPResponse as SanicHTTPResponse,\
     StreamingHTTPResponse as SanicStreamingHTTPResponse
-from sanic.response import text, raw, json, file, file_stream, html, redirect, stream, STATUS_CODES
+from sanic.response import text, raw, json, file, file_stream, html, redirect, stream, json_dumps
+from sanic import http
+from sanic.http import STATUS_CODES
 
 from pynecktie.cookies import CookieJar
 
@@ -28,6 +30,6 @@ class StreamingHTTPResponse(SanicStreamingHTTPResponse):
 
 __all__ = ["BaseHTTPResponse", "HTTPResponse", "StreamingHTTPResponse",
            "text", "raw", "json", "file", "file_stream", "html",
-           "redirect", "stream", "STATUS_CODES"]
+           "redirect", "stream", "json_dumps", "STATUS_CODES"]
 
 
