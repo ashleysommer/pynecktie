@@ -1,6 +1,5 @@
 # Logging
 
-
 Necktie allows you to do different types of logging (access log, error log) on the requests based on the [python3 logging API](https://docs.python.org/3/howto/logging.html). You should have some basic knowledge on python3 logging if you want to create a new configuration.
 
 ### Quick Start
@@ -79,7 +78,7 @@ Necktie provides additional parameters for access logger with:
   len(response.body)
 
 
-The default access log format is 
+The default access log format is
 ```python
 %(asctime)s - (%(name)s)[%(levelname)s][%(host)s]: %(request)s %(message)s %(status)d %(byte)d
 ```

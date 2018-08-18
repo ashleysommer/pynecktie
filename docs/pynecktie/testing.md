@@ -2,7 +2,7 @@
 
 Necktie endpoints can be tested locally using the `test_client` object, which
 depends on the additional [aiohttp](https://aiohttp.readthedocs.io/en/stable/)
-library. 
+library.
 
 The `test_client` exposes `get`, `post`, `put`, `delete`, `patch`, `head` and `options` methods
 for you to run against your application. A simple example (using pytest) is like follows:
@@ -20,8 +20,8 @@ def test_index_put_not_allowed():
     assert response.status == 405
 ```
 
-Internally, each time you call one of the `test_client` methods, the Necktie app is run at `127.0.0.1:42101` and 
-your test request is executed against your application, using `aiohttp`. 
+Internally, each time you call one of the `test_client` methods, the Necktie app is run at `127.0.0.1:42101` and
+your test request is executed against your application, using `aiohttp`.
 
 The `test_client` methods accept the following arguments and keyword arguments:
 

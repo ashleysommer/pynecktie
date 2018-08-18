@@ -14,6 +14,7 @@ Guides
    pynecktie/exceptions
    pynecktie/middleware
    pynecktie/blueprints
+   pynecktie/versioning
    pynecktie/websocket
    pynecktie/config
    pynecktie/cookies
@@ -24,6 +25,7 @@ Guides
    pynecktie/ssl
    pynecktie/logging
    pynecktie/testing
+   pynecktie/debug_mode
    pynecktie/deploying
    pynecktie/extensions
    pynecktie/contributing

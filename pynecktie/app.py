@@ -61,6 +61,14 @@ class Necktie(Sanic):
     # Decorator
     def websocket(self, uri, host=None, strict_slashes=None,
                   subprotocols=None, name=None):
+        """Decorate a function to be registered as a websocket route
+
+        :param uri: path of the URL
+        :param subprotocols: optional list of strings with the supported
+                             subprotocols
+        :param host:
+        :return: decorated function
+        """
         return super(Necktie, self)\
             .websocket(uri, host=host, strict_slashes=strict_slashes,
                        subprotocols=subprotocols, name=name)

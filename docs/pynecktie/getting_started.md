@@ -20,7 +20,7 @@ syntax, so earlier versions of python won't work.
   if __name__ == "__main__":
       app.run(host="0.0.0.0", port=8000)
   ```
-  
+
 3. Run the server: `python3 main.py`
 4. Open the address `http://0.0.0.0:8000` in your web browser. You should see
    the message *Hello world!*.

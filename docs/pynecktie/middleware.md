@@ -79,7 +79,7 @@ If you want to execute startup/teardown code as your server starts or closes, yo
 - `before_server_stop`
 - `after_server_stop`
 
-These listeners are implemented as decorators on functions which accept the app object as well as the asyncio loop. 
+These listeners are implemented as decorators on functions which accept the app object as well as the asyncio loop.
 
 For example:
 
@@ -101,16 +101,16 @@ async def close_db(app, loop):
     await app.db.close()
 ```
 
-It's also possible to register a listener using the `register_listener` method. 
+It's also possible to register a listener using the `register_listener` method.
 This may be useful if you define your listeners in another module besides
 the one you instantiate your app in.
 
 ```python
 app = Necktie()
-    
+
 async def setup_db(app, loop):
     app.db = await db_setup()
-    
+
 app.register_listener(setup_db, 'before_server_start')
 
 ```
