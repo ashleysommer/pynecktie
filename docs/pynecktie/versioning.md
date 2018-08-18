@@ -7,7 +7,7 @@ You can pass the `version` keyword to the route decorators, or to a blueprint in
 You can pass a version number to the routes directly.
 
 ```python
-from sanic import response
+from pynecktie import response
 
 
 @app.route('/text', version=1)
@@ -33,8 +33,8 @@ curl localhost/v2/text
 You can also pass a version number to the blueprint, which will apply to all routes.
 
 ```python
-from sanic import response
-from sanic.blueprints import Blueprint
+from pynecktie import response
+from pynecktie.blueprints import Blueprint
 
 bp = Blueprint('test', version=1)
 

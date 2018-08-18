@@ -1,27 +1,27 @@
 Debug Mode
 =============
 
-When enabling Sanic's debug mode, Sanic will provide a more verbose logging output
+When enabling Necktie's debug mode, Necktie will provide a more verbose logging output
 and by default will enable the Auto Reload feature.
 
 .. warning::
 
-    Sanic's debug more will slow down the server's performance
+    Necktie's debug more will slow down the server's performance
     and is therefore advised to enable it only in development environments.
 
 
 Setting the debug mode
 ----------------------
 
-By setting the ``debug`` mode a more verbose output from Sanic will be outputed
+By setting the ``debug`` mode a more verbose output from Necktie will be outputed
 and the Automatic Reloader will be activated.
 
 .. code-block:: python
 
-    from sanic import Sanic
-    from sanic.response import json
+    from pynecktie import Necktie
+    from pynecktie.response import json
 
-    app = Sanic()
+    app = Necktie()
 
     @app.route('/')
     async def hello_world(request):
@@ -35,15 +35,15 @@ and the Automatic Reloader will be activated.
 Manually setting auto reload
 ----------------------------
 
-Sanic offers a way to enable or disable the Automatic Reloader manually,
+Necktie offers a way to enable or disable the Automatic Reloader manually,
 the ``auto_reload`` argument will activate or deactivate the Automatic Reloader.
 
 .. code-block:: python
 
-    from sanic import Sanic
-    from sanic.response import json
+    from pynecktie import Necktie
+    from pynecktie.response import json
 
-    app = Sanic()
+    app = Necktie()
 
     @app.route('/')
     async def hello_world(request):

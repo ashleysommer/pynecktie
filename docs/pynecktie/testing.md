@@ -1,6 +1,6 @@
 # Testing
 
-Sanic endpoints can be tested locally using the `test_client` object, which
+Necktie endpoints can be tested locally using the `test_client` object, which
 depends on the additional [aiohttp](https://aiohttp.readthedocs.io/en/stable/)
 library. 
 
@@ -8,7 +8,7 @@ The `test_client` exposes `get`, `post`, `put`, `delete`, `patch`, `head` and `o
 for you to run against your application. A simple example (using pytest) is like follows:
 
 ```python
-# Import the Sanic app, usually created with Sanic(__name__)
+# Import the Necktie app, usually created with Necktie(__name__)
 from external_server import app
 
 def test_index_returns_200():
@@ -20,7 +20,7 @@ def test_index_put_not_allowed():
     assert response.status == 405
 ```
 
-Internally, each time you call one of the `test_client` methods, the Sanic app is run at `127.0.0.1:42101` and 
+Internally, each time you call one of the `test_client` methods, the Necktie app is run at `127.0.0.1:42101` and 
 your test request is executed against your application, using `aiohttp`. 
 
 The `test_client` methods accept the following arguments and keyword arguments:
@@ -59,13 +59,13 @@ the available arguments to aiohttp can be found
 [in the documentation for ClientSession](https://aiohttp.readthedocs.io/en/stable/client_reference.html#client-session).
 
 
-## pytest-sanic
+## pytest-pynecktie
 
-[pytest-sanic](https://github.com/yunstanford/pytest-sanic) is a pytest plugin, it helps you to test your code asynchronously.
+[pytest-pynecktie](https://github.com/yunstanford/pytest-pynecktie) is a pytest plugin, it helps you to test your code asynchronously.
 Just write tests like,
 
 ```python
-async def test_sanic_db_find_by_id(app):
+async def test_pynecktie_db_find_by_id(app):
     """
     Let's assume that, in db we have,
         {
@@ -79,13 +79,13 @@ async def test_sanic_db_find_by_id(app):
     assert doc.team == "Lakers"
 ```
 
-[pytest-sanic](https://github.com/yunstanford/pytest-sanic) also provides some useful fixtures, like loop, unused_port,
+[pytest-pynecktie](https://github.com/yunstanford/pytest-pynecktie) also provides some useful fixtures, like loop, unused_port,
 test_server, test_client.
 
 ```python
 @pytest.yield_fixture
 def app():
-    app = Sanic("test_sanic_app")
+    app = Necktie("test_pynecktie_app")
 
     @app.route("/test_get", methods=['GET'])
     async def test_get(request):

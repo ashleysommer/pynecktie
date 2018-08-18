@@ -1,7 +1,7 @@
 Cookies
 =======
 
-Cookies are pieces of data which persist inside a user's browser. Sanic can
+Cookies are pieces of data which persist inside a user's browser. Necktie can
 both read and write cookies, which are stored as key-value pairs.
 
 .. warning::
@@ -20,7 +20,7 @@ A user's cookies can be accessed via the ``Request`` object's ``cookies`` dictio
 
 .. code-block:: python
 
-    from sanic.response import text
+    from pynecktie.response import text
 
     @app.route("/cookie")
     async def test(request):
@@ -34,7 +34,7 @@ When returning a response, cookies can be set on the ``Response`` object.
 
 .. code-block:: python
 
-    from sanic.response import text
+    from pynecktie.response import text
 
     @app.route("/cookie")
     async def test(request):
@@ -51,7 +51,7 @@ Cookies can be removed semantically or explicitly.
 
 .. code-block:: python
 
-    from sanic.response import text
+    from pynecktie.response import text
 
     @app.route("/cookie")
     async def test(request):

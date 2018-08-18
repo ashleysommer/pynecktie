@@ -18,8 +18,8 @@ Suppose you save this file as `my_blueprint.py`, which can be imported into your
 main application later.
 
 ```python
-from sanic.response import json
-from sanic import Blueprint
+from pynecktie.response import json
+from pynecktie import Blueprint
 
 bp = Blueprint('my_blueprint')
 
@@ -34,10 +34,10 @@ async def bp_root(request):
 Blueprints must be registered with the application.
 
 ```python
-from sanic import Sanic
+from pynecktie import Necktie
 from my_blueprint import bp
 
-app = Sanic(__name__)
+app = Necktie(__name__)
 app.blueprint(bp)
 
 app.run(host='0.0.0.0', port=8000, debug=True)
@@ -70,19 +70,19 @@ Initialization of this app's blueprint hierarchy could go as follows:
 
 ```python
 # api/content/authors.py
-from sanic import Blueprint
+from pynecktie import Blueprint
 
 authors = Blueprint('content_authors', url_prefix='/authors')
 ```
 ```python
 # api/content/static.py
-from sanic import Blueprint
+from pynecktie import Blueprint
 
 static = Blueprint('content_static', url_prefix='/static')
 ```
 ```python
 # api/content/__init__.py
-from sanic import Blueprint
+from pynecktie import Blueprint
 
 from .static import static
 from .authors import authors
@@ -91,13 +91,13 @@ content = Blueprint.group(assets, authors, url_prefix='/content')
 ```
 ```python
 # api/info.py
-from sanic import Blueprint
+from pynecktie import Blueprint
 
 info = Blueprint('info', url_prefix='/info')
 ```
 ```python
 # api/__init__.py
-from sanic import Blueprint
+from pynecktie import Blueprint
 
 from .content import content
 from .info import info
@@ -109,11 +109,11 @@ And registering these blueprints in `app.py` can now be done like so:
 
 ```python
 # app.py
-from sanic import Sanic
+from pynecktie import Necktie
 
 from .api import api
 
-app = Sanic(__name__)
+app = Necktie(__name__)
 
 app.blueprint(api)
 ```
@@ -207,8 +207,8 @@ can be used to implement our API versioning scheme.
 
 ```python
 # blueprints.py
-from sanic.response import text
-from sanic import Blueprint
+from pynecktie.response import text
+from pynecktie import Blueprint
 
 blueprint_v1 = Blueprint('v1', url_prefix='/v1')
 blueprint_v2 = Blueprint('v2', url_prefix='/v2')
@@ -228,10 +228,10 @@ for each API version.
 
 ```python
 # main.py
-from sanic import Sanic
+from pynecktie import Necktie
 from blueprints import blueprint_v1, blueprint_v2
 
-app = Sanic(__name__)
+app = Necktie(__name__)
 app.blueprint(blueprint_v1, url_prefix='/v1')
 app.blueprint(blueprint_v2, url_prefix='/v2')
 

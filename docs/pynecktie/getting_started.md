@@ -1,17 +1,17 @@
 # Getting Started
 
 Make sure you have both [pip](https://pip.pypa.io/en/stable/installing/) and at
-least version 3.5 of Python before starting. Sanic uses the new `async`/`await`
+least version 3.5 of Python before starting. Necktie uses the new `async`/`await`
 syntax, so earlier versions of python won't work.
 
-1. Install Sanic: `python3 -m pip install sanic`
+1. Install Necktie: `python3 -m pip install pynecktie`
 2. Create a file called `main.py` with the following code:
 
   ```python
-  from sanic import Sanic
-  from sanic.response import json
+  from pynecktie import Necktie
+  from pynecktie.response import json
 
-  app = Sanic()
+  app = Necktie()
 
   @app.route("/")
   async def test(request):
@@ -25,4 +25,4 @@ syntax, so earlier versions of python won't work.
 4. Open the address `http://0.0.0.0:8000` in your web browser. You should see
    the message *Hello world!*.
 
-You now have a working Sanic server!
+You now have a working Necktie server!

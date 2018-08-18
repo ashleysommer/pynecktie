@@ -3,10 +3,10 @@
 Routing allows the user to specify handler functions for different URL endpoints.
 
 A basic route looks like the following, where `app` is an instance of the
-`Sanic` class:
+`Necktie` class:
 
 ```python
-from sanic.response import json
+from pynecktie.response import json
 
 @app.route("/")
 async def test(request):
@@ -17,19 +17,19 @@ When the url `http://server.url/` is accessed (the base url of the server), the
 final `/` is matched by the router to the handler function, `test`, which then
 returns a JSON object.
 
-Sanic handler functions must be defined using the `async def` syntax, as they
+Necktie handler functions must be defined using the `async def` syntax, as they
 are asynchronous functions.
 
 ## Request parameters
 
-Sanic comes with a basic router that supports request parameters.
+Necktie comes with a basic router that supports request parameters.
 
 To specify a parameter, surround it with angle quotes like so: `<PARAM>`.
 Request parameters will be passed to the route handler functions as keyword
 arguments.
 
 ```python
-from sanic.response import text
+from pynecktie.response import text
 
 @app.route('/tag/<tag>')
 async def tag_handler(request, tag):
@@ -37,12 +37,12 @@ async def tag_handler(request, tag):
 ```
 
 To specify a type for the parameter, add a `:type` after the parameter name,
-inside the quotes. If the parameter does not match the specified type, Sanic
+inside the quotes. If the parameter does not match the specified type, Necktie
 will throw a `NotFound` exception, resulting in a `404: Page not found` error
 on the URL.
 
 ```python
-from sanic.response import text
+from pynecktie.response import text
 
 @app.route('/number/<integer_arg:int>')
 async def integer_handler(request, integer_arg):
@@ -69,7 +69,7 @@ However, the `@app.route` decorator accepts an optional parameter, `methods`,
 which allows the handler function to work with any of the HTTP methods in the list.
 
 ```python
-from sanic.response import text
+from pynecktie.response import text
 
 @app.route('/post', methods=['POST'])
 async def post_handler(request):
@@ -97,7 +97,7 @@ async def get_handler(request):
 There are also shorthand method decorators:
 
 ```python
-from sanic.response import text
+from pynecktie.response import text
 
 @app.post('/post')
 async def post_handler(request):
@@ -115,7 +115,7 @@ However, this decorator is really just a wrapper for the `app.add_route`
 method, which is used as follows:
 
 ```python
-from sanic.response import text
+from pynecktie.response import text
 
 # Define the handler functions
 async def handler1(request):
@@ -135,10 +135,10 @@ app.add_route(person_handler2, '/person/<name:[A-z]>', methods=['GET'])
 
 ## URL building with `url_for`
 
-Sanic provides a `url_for` method, to generate URLs based on the handler method name. This is useful if you want to avoid hardcoding url paths into your app; instead, you can just reference the handler name. For example:
+Necktie provides a `url_for` method, to generate URLs based on the handler method name. This is useful if you want to avoid hardcoding url paths into your app; instead, you can just reference the handler name. For example:
 
 ```python
-from sanic.response import redirect
+from pynecktie.response import redirect
 
 @app.route('/')
 async def index(request):
@@ -224,7 +224,7 @@ You can make `routes` strict to trailing slash or not, it's configurable.
 ```python
 
 # provide default strict_slashes value for all routes
-app = Sanic('test_route_strict_slash', strict_slashes=True)
+app = Necktie('test_route_strict_slash', strict_slashes=True)
 
 # you can also overwrite strict_slashes value for specific route
 @app.get('/get', strict_slashes=False)
@@ -247,7 +247,7 @@ You can pass `name` to change the route name to avoid using the default name  (`
 
 ```python
 
-app = Sanic('test_named_route')
+app = Necktie('test_named_route')
 
 @app.get('/get', name='get_handler')
 def handler(request):
@@ -310,7 +310,7 @@ If it's for file directly, `filename` can be ignored.
 
 ```python
 
-app = Sanic('test_static')
+app = Necktie('test_static')
 app.static('/static', './static')
 app.static('/uploads', './uploads', name='uploads')
 app.static('/the_best.png', '/home/ubuntu/test.png', name='best_png')

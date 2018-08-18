@@ -21,11 +21,11 @@ The available methods are `get`, `post`, `put`, `patch`, and `delete`. A class
 using all these methods would look like the following.
 
 ```python
-from sanic import Sanic
-from sanic.views import HTTPMethodView
-from sanic.response import text
+from pynecktie import Necktie
+from pynecktie.views import HTTPMethodView
+from pynecktie.response import text
 
-app = Sanic('some_name')
+app = Necktie('some_name')
 
 class SimpleView(HTTPMethodView):
 
@@ -51,11 +51,11 @@ app.add_route(SimpleView.as_view(), '/')
 You can also use `async` syntax.
 
 ```python
-from sanic import Sanic
-from sanic.views import HTTPMethodView
-from sanic.response import text
+from pynecktie import Necktie
+from pynecktie.views import HTTPMethodView
+from pynecktie.response import text
 
-app = Sanic('some_name')
+app = Necktie('some_name')
 
 class SimpleAsyncView(HTTPMethodView):
 
@@ -146,11 +146,11 @@ and the second is the handler function. The following example shows
 lambda:
 
 ```python
-from sanic import Sanic
-from sanic.views import CompositionView
-from sanic.response import text
+from pynecktie import Necktie
+from pynecktie.views import CompositionView
+from pynecktie.response import text
 
-app = Sanic(__name__)
+app = Necktie(__name__)
 
 def get_handler(request):
     return text('I am a get method')

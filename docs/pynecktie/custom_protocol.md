@@ -2,24 +2,24 @@
 
 *Note: this is advanced usage, and most readers will not need such functionality.*
 
-You can change the behavior of Sanic's protocol by specifying a custom
+You can change the behavior of Necktie's protocol by specifying a custom
 protocol, which should be a subclass
 of
 [asyncio.protocol](https://docs.python.org/3/library/asyncio-protocol.html#protocol-classes).
-This protocol can then be passed as the keyword argument `protocol` to the `sanic.run` method.
+This protocol can then be passed as the keyword argument `protocol` to the `pynecktie.run` method.
 
 The constructor of the custom protocol class receives the following keyword
-arguments from Sanic.
+arguments from Necktie.
 
 - `loop`: an `asyncio`-compatible event loop.
-- `connections`: a `set` to store protocol objects. When Sanic receives
+- `connections`: a `set` to store protocol objects. When Necktie receives
   `SIGINT` or `SIGTERM`, it executes `protocol.close_if_idle` for all protocol
   objects stored in this set.
-- `signal`: a `sanic.server.Signal` object with the `stopped` attribute. When
-  Sanic receives `SIGINT` or `SIGTERM`, `signal.stopped` is assigned `True`.
-- `request_handler`: a coroutine that takes a `sanic.request.Request` object
+- `signal`: a `pynecktie.server.Signal` object with the `stopped` attribute. When
+  Necktie receives `SIGINT` or `SIGTERM`, `signal.stopped` is assigned `True`.
+- `request_handler`: a coroutine that takes a `pynecktie.request.Request` object
   and a `response` callback as arguments.
-- `error_handler`: a `sanic.exceptions.Handler` which is called when exceptions
+- `error_handler`: a `pynecktie.exceptions.Handler` which is called when exceptions
   are raised.
 - `request_timeout`: the number of seconds before a request times out.
 - `request_max_size`: an integer specifying the maximum size of a request, in bytes.
@@ -33,11 +33,11 @@ By overriding the `write_response` protocol method, if a handler returns a
 string it will be converted to an `HTTPResponse object`.
 
 ```python
-from sanic import Sanic
-from sanic.server import HttpProtocol
-from sanic.response import text
+from pynecktie import Necktie
+from pynecktie.server import HttpProtocol
+from pynecktie.response import text
 
-app = Sanic(__name__)
+app = Necktie(__name__)
 
 
 class CustomHttpProtocol(HttpProtocol):

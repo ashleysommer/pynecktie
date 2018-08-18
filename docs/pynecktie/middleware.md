@@ -4,7 +4,7 @@ Middleware are functions which are executed before or after requests to the
 server. They can be used to modify the *request to* or *response from*
 user-defined handler functions.
 
-Additionally, Sanic provides listeners which allow you to run code at various points of your application's lifecycle.
+Additionally, Necktie provides listeners which allow you to run code at various points of your application's lifecycle.
 
 ## Middleware
 
@@ -34,7 +34,7 @@ as it does not return it*. The following example shows a practical use-case for
 this.
 
 ```python
-app = Sanic(__name__)
+app = Necktie(__name__)
 
 @app.middleware('response')
 async def custom_banner(request, response):
@@ -106,7 +106,7 @@ This may be useful if you define your listeners in another module besides
 the one you instantiate your app in.
 
 ```python
-app = Sanic()
+app = Necktie()
     
 async def setup_db(app, loop):
     app.db = await db_setup()
@@ -116,7 +116,7 @@ app.register_listener(setup_db, 'before_server_start')
 ```
 
 If you want to schedule a background task to run after the loop has started,
-Sanic provides the `add_task` method to easily do so.
+Necktie provides the `add_task` method to easily do so.
 
 ```python
 async def notify_server_started_after_five_seconds():
@@ -126,7 +126,7 @@ async def notify_server_started_after_five_seconds():
 app.add_task(notify_server_started_after_five_seconds())
 ```
 
-Sanic will attempt to automatically inject the app, passing it as an argument to the task:
+Necktie will attempt to automatically inject the app, passing it as an argument to the task:
 
 ```python
 async def notify_server_started_after_five_seconds(app):

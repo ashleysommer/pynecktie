@@ -2,18 +2,18 @@
 
 ## Request Streaming
 
-Sanic allows you to get request data by stream, as below. When the request ends, `request.stream.get()` returns `None`. Only post, put and patch decorator have stream argument.
+Necktie allows you to get request data by stream, as below. When the request ends, `request.stream.get()` returns `None`. Only post, put and patch decorator have stream argument.
 
 ```python
-from sanic import Sanic
-from sanic.views import CompositionView
-from sanic.views import HTTPMethodView
-from sanic.views import stream as stream_decorator
-from sanic.blueprints import Blueprint
-from sanic.response import stream, text
+from pynecktie import Necktie
+from pynecktie.views import CompositionView
+from pynecktie.views import HTTPMethodView
+from pynecktie.views import stream as stream_decorator
+from pynecktie.blueprints import Blueprint
+from pynecktie.response import stream, text
 
 bp = Blueprint('blueprint_request_stream')
-app = Sanic('request_stream')
+app = Necktie('request_stream')
 
 
 class SimpleView(HTTPMethodView):
@@ -74,13 +74,13 @@ if __name__ == '__main__':
 
 ## Response Streaming
 
-Sanic allows you to stream content to the client with the `stream` method. This method accepts a coroutine callback which is passed a `StreamingHTTPResponse` object that is written to. A simple example is like follows:
+Necktie allows you to stream content to the client with the `stream` method. This method accepts a coroutine callback which is passed a `StreamingHTTPResponse` object that is written to. A simple example is like follows:
 
 ```python
-from sanic import Sanic
-from sanic.response import stream
+from pynecktie import Necktie
+from pynecktie.response import stream
 
-app = Sanic(__name__)
+app = Necktie(__name__)
 
 @app.route("/")
 async def test(request):

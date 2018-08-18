@@ -1,15 +1,15 @@
 WebSocket
 =========
 
-Sanic supports websockets, to setup a WebSocket:
+Necktie supports websockets, to setup a WebSocket:
 
 .. code:: python
 
-    from sanic import Sanic
-    from sanic.response import json
-    from sanic.websocket import WebSocketProtocol
+    from pynecktie import Necktie
+    from pynecktie.response import json
+    from pynecktie.websocket import WebSocketProtocol
 
-    app = Sanic()
+    app = Necktie()
 
     @app.websocket('/feed')
     async def feed(request, ws):

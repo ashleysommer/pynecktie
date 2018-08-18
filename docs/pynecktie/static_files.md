@@ -1,14 +1,14 @@
 # Static Files
 
-Static files and directories, such as an image file, are served by Sanic when
+Static files and directories, such as an image file, are served by Necktie when
 registered with the `app.static` method. The method takes an endpoint URL and a
 filename. The file specified will then be accessible via the given endpoint.
 
 ```python
-from sanic import Sanic
-from sanic.blueprints import Blueprint
+from pynecktie import Necktie
+from pynecktie.blueprints import Blueprint
 
-app = Sanic(__name__)
+app = Necktie(__name__)
 
 # Serves files from the static folder to the URL /static
 app.static('/static', './static')

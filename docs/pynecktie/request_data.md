@@ -8,7 +8,7 @@ The following variables are accessible as properties on `Request` objects:
 - `json` (any) - JSON body
 
   ```python
-  from sanic.response import json
+  from pynecktie.response import json
 
   @app.route("/json")
   def post_json(request):
@@ -21,7 +21,7 @@ The following variables are accessible as properties on `Request` objects:
   The request's `query_string` variable holds the unparsed string value.
 
   ```python
-  from sanic.response import json
+  from pynecktie.response import json
 
   @app.route("/query_string")
   def query_string(request):
@@ -35,7 +35,7 @@ The following variables are accessible as properties on `Request` objects:
 - `files` (dictionary of `File` objects) - List of files that have a name, body, and type
 
   ```python
-  from sanic.response import json
+  from pynecktie.response import json
 
   @app.route("/files")
   def post_json(request):
@@ -53,7 +53,7 @@ The following variables are accessible as properties on `Request` objects:
 - `form` (dict) - Posted form variables.
 
   ```python
-  from sanic.response import json
+  from pynecktie.response import json
 
   @app.route("/form")
   def post_json(request):
@@ -64,7 +64,7 @@ The following variables are accessible as properties on `Request` objects:
   request's raw data, regardless of content type.
 
   ```python
-  from sanic.response import text
+  from pynecktie.response import text
 
   @app.route("/users", methods=["POST",])
   def create_user(request):
@@ -81,11 +81,11 @@ The following variables are accessible as properties on `Request` objects:
 
 - `socket` (tuple) - (IP, port) of the requester.
 
-- `app` - a reference to the Sanic application object that is handling this request. This is useful when inside blueprints or other handlers in modules that do not have access to the global `app` object.
+- `app` - a reference to the Necktie application object that is handling this request. This is useful when inside blueprints or other handlers in modules that do not have access to the global `app` object.
 
   ```python
-  from sanic.response import json
-  from sanic import Blueprint
+  from pynecktie.response import json
+  from pynecktie import Blueprint
 
   bp = Blueprint('my_blueprint')
 
@@ -117,7 +117,7 @@ the distinction between the `get` and `getlist` methods.
 - `getlist(key, default=None)` operates as normal, *returning the entire list*.
 
 ```python
-from sanic.request import RequestParameters
+from pynecktie.request import RequestParameters
 
 args = RequestParameters()
 args['titles'] = ['Post 1', 'Post 2']

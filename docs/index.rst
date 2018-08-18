@@ -1,4 +1,4 @@
-.. include:: sanic/index.rst
+.. include:: pynecktie/index.rst
 
 Guides
 ======
@@ -6,28 +6,28 @@ Guides
 .. toctree::
    :maxdepth: 2
 
-   sanic/getting_started
-   sanic/routing
-   sanic/request_data
-   sanic/response
-   sanic/static_files
-   sanic/exceptions
-   sanic/middleware
-   sanic/blueprints
-   sanic/websocket
-   sanic/config
-   sanic/cookies
-   sanic/decorators
-   sanic/streaming
-   sanic/class_based_views
-   sanic/custom_protocol
-   sanic/ssl
-   sanic/logging
-   sanic/testing
-   sanic/deploying
-   sanic/extensions
-   sanic/contributing
-   sanic/api_reference
+   pynecktie/getting_started
+   pynecktie/routing
+   pynecktie/request_data
+   pynecktie/response
+   pynecktie/static_files
+   pynecktie/exceptions
+   pynecktie/middleware
+   pynecktie/blueprints
+   pynecktie/websocket
+   pynecktie/config
+   pynecktie/cookies
+   pynecktie/decorators
+   pynecktie/streaming
+   pynecktie/class_based_views
+   pynecktie/custom_protocol
+   pynecktie/ssl
+   pynecktie/logging
+   pynecktie/testing
+   pynecktie/deploying
+   pynecktie/extensions
+   pynecktie/contributing
+   pynecktie/api_reference
 
 
 Module Documentation

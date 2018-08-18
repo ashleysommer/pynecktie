@@ -1,16 +1,16 @@
 # Logging
 
 
-Sanic allows you to do different types of logging (access log, error log) on the requests based on the [python3 logging API](https://docs.python.org/3/howto/logging.html). You should have some basic knowledge on python3 logging if you want to create a new configuration.
+Necktie allows you to do different types of logging (access log, error log) on the requests based on the [python3 logging API](https://docs.python.org/3/howto/logging.html). You should have some basic knowledge on python3 logging if you want to create a new configuration.
 
 ### Quick Start
 
 A simple example using default settings would be like this:
 
 ```python
-from sanic import Sanic
+from pynecktie import Necktie
 
-app = Sanic('test')
+app = Necktie('test')
 
 @app.route('/')
 async def test(request):
@@ -21,10 +21,10 @@ if __name__ == "__main__":
 ```
 
 To use your own logging config, simply use `logging.config.dictConfig`, or
-pass `log_config` when you initialize `Sanic` app:
+pass `log_config` when you initialize `Necktie` app:
 
 ```python
-app = Sanic('test', log_config=LOGGING_CONFIG)
+app = Necktie('test', log_config=LOGGING_CONFIG)
 ```
 
 And to close logging, simply assign access_log=False:
@@ -45,23 +45,23 @@ if __name__ == "__main__":
 
 ### Configuration
 
-By default, log_config parameter is set to use sanic.log.LOGGING_CONFIG_DEFAULTS dictionary for configuration.
+By default, log_config parameter is set to use pynecktie.log.LOGGING_CONFIG_DEFAULTS dictionary for configuration.
 
-There are three `loggers` used in sanic, and **must be defined if you want to create your own logging configuration**:
+There are three `loggers` used in pynecktie, and **must be defined if you want to create your own logging configuration**:
 
 - root:<br>
   Used to log internal messages.
 
-- sanic.error:<br>
+- pynecktie.error:<br>
   Used to log error logs.
 
-- sanic.access:<br>
+- pynecktie.access:<br>
   Used to log access logs.
 
 #### Log format:
 
 In addition to default parameters provided by python (asctime, levelname, message),
-Sanic provides additional parameters for access logger with:
+Necktie provides additional parameters for access logger with:
 
 - host (str)<br>
   request.ip

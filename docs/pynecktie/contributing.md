@@ -1,12 +1,12 @@
 # Contributing
 
-Thank you for your interest! Sanic is always looking for contributors. If you
+Thank you for your interest! Necktie is always looking for contributors. If you
 don't feel comfortable contributing code, adding docstrings to the source files
 is very appreciated.
 
 ## Installation
 
-To develop on sanic (and mainly to just run the tests) it is highly recommend to
+To develop on pynecktie (and mainly to just run the tests) it is highly recommend to
 install from sources.
 
 So assume you have already cloned the repo and are in the working directory with
@@ -18,7 +18,7 @@ python setup.py develop && pip install -r requirements-dev.txt
 
 ## Running tests
 
-To run the tests for sanic it is recommended to use tox like so:
+To run the tests for pynecktie it is recommended to use tox like so:
 
 ```bash
 tox
@@ -40,7 +40,7 @@ test to accompany it.
 
 ## Documentation
 
-Sanic's documentation is built
+Necktie's documentation is built
 using [sphinx](http://www.sphinx-doc.org/en/1.5.1/). Guides are written in
 Markdown and can be found in the `docs` folder, while the module reference is
 automatically generated using `sphinx-apidoc`.
@@ -48,7 +48,7 @@ automatically generated using `sphinx-apidoc`.
 To generate the documentation from scratch:
 
 ```bash
-sphinx-apidoc -fo docs/_api/ sanic
+sphinx-apidoc -fo docs/_api/ pynecktie
 sphinx-build -b html docs docs/_build
 ```
 
@@ -56,7 +56,7 @@ The HTML documentation will be created in the `docs/_build` folder.
 
 ## Warning
 
-One of the main goals of Sanic is speed. Code that lowers the performance of
-Sanic without significant gains in usability, security, or features may not be
+One of the main goals of Necktie is speed. Code that lowers the performance of
+Necktie without significant gains in usability, security, or features may not be
 merged. Please don't let this intimidate you! If you have any concerns about an
 idea, open an issue for discussion and help.
